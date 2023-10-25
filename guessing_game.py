@@ -3,36 +3,74 @@ Data Analysis Techdegree
 Project 1 - A Number Guessing Game
 --------------------------------
 """
-# Import the random and statistics modules.
-from statistics import mean, median, mode
 import random
-# Create the start_game function.
-# Write your code inside this function.
-def start_game ():
-    attempts = 1
-user_choice = input ("Play again? (Y/N)")
-if user_choice == "Y"
-#   When the program starts, we want to:
-#   ------------------------------------
-#   1. Display an intro/welcome message to the player.
-Print("*** Welcome to the Number Guessing Game ***")
-#   2. Store a random number as the answer/solution.
-while user_choice.lower () == "Y":
-    solution = random.randint(1, 10)
-#   3. Continuously prompt the player for a guess.
-    guess = input("Guess a number between 1 and 10.")
-#     a. If the guess is greater than the solution, display to the player "It's lower".
-    if guess > solution:
-        attempts += 1
-        print("It's lower.")
-#     b. If the guess is less than the solution, display to the player "It's higher".
-    elif guess < solution:
-        attempts += 1
-        print("It's higher.")
-#   4. Once the guess is correct, stop looping, inform the user they "Got it" and store the number of guesses it took in a list.
-    else guess == solution:
-        attempts += 1
-        print("Got it")
+from statistics import mean, mode, median
+
+solution = random.randint(1,10)
+attempt_list = []
+
+# create a function for the game, help, and play again function
+def menu():
+    print("+++ Number Guessing Game Menu +++")
+    print("""
+    Enter 'HELP' for game instructions
+    Enter 'PLAY' to begin the game
+    Enter 'EXIT' to exit the program
+    """)
+def stats():
+    print(f"[Highscore: {min(attempt_list)}]")
+    print(f"""
+    The average of all scores is {mean(attempt_list)}.
+    The median of all scores is {median(attempt_list)}.
+    The mode of all scores is {mode(attempt_list)}.
+    """)
+    
+def show_help():
+    print("**Guess a number between 1 and 10. Your lowest number of attempts is your highscore!**")
+
+def start_game():
+    play_again = 'y'
+    while play_again.lower() == 'y':
+        solution = random.randint(1,10)
+        print("***** Welcome to the Number Guessing Game! *****")
+        user_guess = int(input("Enter your guess: "))
+        tries = 1
+        while user_guess != solution:
+            print(f"[Total attempts: {tries}]") #new
+            
+            if user_guess < solution:
+                tries += 1
+                user_guess = int(input("Too low. Try again: "))
+            elif user_guess > solution:
+                tries += 1
+                user_guess = int(input("Too high. Try again: "))
+        else:
+            print("Got it! Great job.")
+            attempt_list.append(tries) #new
+            print(f"[Your score: {tries}]")
+            stats()
+            play_again = input("Would you like to play again? (y/n): ")
+    else:
+        print("Thanks for playing! Here are your finishing stats:")
+        print(f"[Your score: {tries}]")
+        stats()
+        
+    menu()
+    
+menu()
+while True:
+    user_choice = input("What would you like to do? -> ")
+    if user_choice.lower() == 'exit':
+        break
+    elif user_choice.lower() == 'help':
+        show_help()
+        continue
+    elif user_choice.lower() == 'play':
+        play_again = 'y'
+        start_game()
+        break
+
+
 #   5. Display the following data to the player
 #     a. How many attempts it took them to get the correct number in this game
 #     b. The mean of the saved attempts list
@@ -41,8 +79,5 @@ while user_choice.lower () == "Y":
 #   6. Prompt the player to play again
 #     a. If they decide to play again, start the game loop over.
 #     b. If they decide to quit, show them a goodbye message.
-
 # ( You can add more features/enhancements if you'd like to. )
-
-
 # Kick off the program by calling the start_game function.
