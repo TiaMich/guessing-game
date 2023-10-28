@@ -3,6 +3,10 @@ Data Analysis Techdegree
 Project 1 - A Number Guessing Game
 --------------------------------
 """
+# Grade Expectation:
+# I am aiming for an exceeds expectation grade. 
+# If the game does not meet those standards, please reject so that I may correct the errors.
+
 import random
 from statistics import mean, mode, median
 
@@ -21,7 +25,7 @@ def menu():
 # game stats following completion of the game
 def stats():
     print(f"""STATS:
-    [Best attempt score: {min(attempt_list)}]
+    [Highscore: {min(attempt_list)}]
     * Your last game used {attempt_list[-1]} attempts.
     * The average of all game scores is {mean(attempt_list)}.
     * The median of all game scores is {median(attempt_list)}.
@@ -32,33 +36,41 @@ def stats():
 def show_help():
     print("""
     Instructions:
-        Guess a number between 1 and 10.
-        Try to get the lowest number of attempts possible!
+        In this game, you will guess a whole number, between 1 and 10.
+        Your aim is to blindly guess the answer that the program has generated.
+        Try to use the least number of attempts as possible (1 attempt being the best).
+        Lowest number of attempts = highest score
+        
+        *Type 'EXIT' to quit game program.*
+        *Type 'PLAY' to start game.*
     """)
 
 # game function
 def start_game():
     tries = 0
     solution = random.randint(1,10)
-    print("++++ Ready, Set, Go! ++++")
+    print("\n[Highscore: 0]")
+    print("++++ Ready, Set, Go! ++++\n")
     while True:
         try:
             user_guess = input("Enter your guess: ")
-            if int(user_guess) > 10:
+            if user_guess.lower() == 'exit':
+                break
+            elif int(user_guess) > 10:
                 tries += 1
-                raise Exception("Error: Need an integer between 1 and 10. Try again.")
+                raise Exception("Error: Need an integer between 1 and 10. Try again.\n")
                 continue
             elif int(user_guess) < 1:
                 tries += 1
-                raise Exception("Error: Need an integer between 1 and 10. Try again.")
+                raise Exception("Error: Need an integer between 1 and 10. Try again.\n")
                 continue
             elif int(user_guess) < solution:
                 tries += 1
-                print("Too low, try again.")
+                print("It's higher, try again.\n")
                 continue
             elif int(user_guess) > solution:
                 tries += 1
-                print ("Too high, try again.")
+                print ("It's lower, try again.\n")
                 continue
             else:
                 tries += 1
@@ -71,12 +83,13 @@ def start_game():
         except Exception as err:
             print(err)
             continue
-        play_again = input("Would you like to play again? (y/n): ") # "play again?" prompt
+        # asks the user if they'd like to play again and what to do if 'yes'(y).
+        play_again = input("Would you like to play again? (y/n): ")
         if play_again.lower() == 'y':
             tries = 0 
             solution = random.randint(1,10)
-            print("""
-            ***** Ready, Set, Go! *****""")
+            print(f"[Highscore: {min(attempt_list)}]")
+            print("""++++ Ready, Set, Go! ++++\n""")
             continue
         else:
             print(f"""
