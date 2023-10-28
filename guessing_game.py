@@ -8,7 +8,7 @@ from statistics import mean, mode, median
 
 attempt_list = []
 
-#the menu options prompt
+# the menu options prompt
 def menu():
     print("***** WELCOME TO THE NUMBER GUESSING GAME *****")
     print("""
@@ -18,7 +18,7 @@ def menu():
         Enter 'EXIT' to exit the program
     """)
 
-#game stats following completion of the game
+# game stats following completion of the game
 def stats():
     print(f"""STATS:
     [Best attempt score: {min(attempt_list)}]
@@ -28,7 +28,7 @@ def stats():
     * The mode of all game scores is {mode(attempt_list)}.
     """)
 
-# start menu option    
+# start menu (help) option    
 def show_help():
     print("""
     Instructions:
@@ -41,17 +41,16 @@ def start_game():
     tries = 0
     solution = random.randint(1,10)
     print("++++ Ready, Set, Go! ++++")
-    print("solution = ", solution) # DELETE THIS LINE
     while True:
         try:
             user_guess = input("Enter your guess: ")
             if int(user_guess) > 10:
                 tries += 1
-                raise ValueError("OOPS!: Please use an integer between 1 and 10.")
+                raise Exception("Error: Need an integer between 1 and 10. Try again.")
                 continue
             elif int(user_guess) < 1:
                 tries += 1
-                raise ValueError("OOPS!: Please use an integer between 1 and 10.")
+                raise Exception("Error: Need an integer between 1 and 10. Try again.")
                 continue
             elif int(user_guess) < solution:
                 tries += 1
@@ -69,13 +68,15 @@ def start_game():
         except ValueError as err:
             print("ERROR: That's not an integer. Please try again.")
             continue
+        except Exception as err:
+            print(err)
+            continue
         play_again = input("Would you like to play again? (y/n): ") # "play again?" prompt
         if play_again.lower() == 'y':
             tries = 0 
             solution = random.randint(1,10)
             print("""
             ***** Ready, Set, Go! *****""")
-            print("solution = ", solution) # DELETE THIS LINE
             continue
         else:
             print(f"""
@@ -84,7 +85,7 @@ def start_game():
             stats()
             break
 
-# Lastly, calling the code to run in this order:
+# calling the code to run in this order:
 menu()
 while True:
     user_choice = input("WHAT DO YOU WANT TO DO? > ")
@@ -96,5 +97,3 @@ while True:
     elif user_choice.lower() == 'play':
         start_game()
         break
-        
-# DON'T FORGET: Delete lines revealing the solution (line 49, line 83)
