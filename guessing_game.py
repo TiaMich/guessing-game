@@ -36,7 +36,7 @@ def stats():
 def show_help():
     print("""
     Instructions:
-        In this game, you will guess a whole number, between 1 and 10.
+        In this game, you will guess a whole number, between 1 and 100.
         Your aim is to blindly guess the answer that the program has generated.
         Try to use the least number of attempts as possible (1 attempt being the best).
         Lowest number of attempts = highest score
@@ -48,7 +48,7 @@ def show_help():
 # game function
 def start_game():
     tries = 0
-    solution = random.randint(1,10)
+    solution = random.randint(1,100)
     print("\n[Highscore: 0]")
     print("++++ Ready, Set, Go! ++++\n")
     while True:
@@ -56,13 +56,13 @@ def start_game():
             user_guess = input("Enter your guess: ")
             if user_guess.lower() == 'exit':
                 break
-            elif int(user_guess) > 10:
+            elif int(user_guess) > 100:
                 tries += 1
-                raise Exception("Error: Need an integer between 1 and 10. Try again.\n")
+                raise Exception("Error: Need an integer between 1 and 100. Try again.\n")
                 continue
             elif int(user_guess) < 1:
                 tries += 1
-                raise Exception("Error: Need an integer between 1 and 10. Try again.\n")
+                raise Exception("Error: Need an integer between 1 and 100. Try again.\n")
                 continue
             elif int(user_guess) < solution:
                 tries += 1
@@ -87,7 +87,7 @@ def start_game():
         play_again = input("Would you like to play again? (y/n): ")
         if play_again.lower() == 'y':
             tries = 0 
-            solution = random.randint(1,10)
+            solution = random.randint(1,100)
             print(f"[Highscore: {min(attempt_list)}]")
             print("""++++ Ready, Set, Go! ++++\n""")
             continue
